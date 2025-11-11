@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pierre Chenaut</title>
+    <style>
+        /* Estilo general hacker / Hollywood */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(0,0,0,0.85);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 750px;
+            text-align: center;
+            box-shadow: 0 0 30px #0f0, 0 0 60px #0f0 inset;
+            border: 1px solid #0f0;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        /* Glitch efecto */
+        @keyframes glitch {
+            0% { transform: translate(0px, 0px); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 22%, 24%, 55% { opacity: 0.5; }
+        }
+
+        .lineage {
+            font-size: 1.4em;
+            font-style: italic;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .name {
+            font-size: 2.8em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #00ff99;
+            text-shadow:
+                0 0 5px #00ff99,
+                0 0 10px #00ff99,
+                0 0 20px #00ff99;
+            animation: glitch 1s infinite;
+        }
+
+        .symbols {
+            font-size: 1.8em;
+            margin: 15px 0;
+            color: #0ff;
+            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+        }
+
+        .instagram {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .instagram a {
+            color: #0ff;
+            text-decoration: none;
+        }
+
+        .instagram a:hover {
+            text-decoration: underline;
+        }
+
+        .bio {
+            font-size: 1.1em;
+            color: #0f0;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .meaning {
+            background: rgba(0, 50, 0, 0.5);
+            border: 1px solid #0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+            color: #0f0;
+            box-shadow: 0 0 10px #0f0 inset;
+        }
+
+        .meaning h2 {
+            text-align: center;
+            color: #0ff;
+            margin-bottom: 15px;
+        }
+
+        .meaning p {
+            margin: 8px 0;
+        }
+
+        .location, .weather {
+            font-size: 1em;
+            margin: 5px 0;
+            color: #0f0;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="name">✥ 𝙿𝚒𝚎𝚛𝚛𝚎 𝙲𝚑𝚎𝚗𝚊𝚞𝚝 ✥</div>
+
+        <div class="symbols">⚚ 🜇 🜓 🜚</div>
+
+        <div class="instagram">
+            Instagram: <a href="https://instagram.com/Pierre_Chenaut_" target>
+        </div>
+
+        <div class="meaning">
+            <p>GrandSon the <strong>Lucius Artorius Castus</strong>.</p>
+            <p>Action <strong>Bibliotecario Sub/tarde Chepes - La Rioja</stro>
+            <p>New action <strong>Miembro de la elite/fraternidad *Nueva huma>
+            <p>New action <strong>Colportor de la MACO</strong>.</p>
+        </div>                                                                
+        <div class="location">Ubicación actual: Chepes, La Rioja</div>
+        <div class="weather">Clima: Soleado, 28°C</div>
+                                                                                      <div class="footer">Página personal de Pierre Chenaut</div>
+    </div>
+</body>
+</html>
