@@ -1,86 +1,162 @@
-<!doctype html>
+<!doctype html>  
+<html lang="es">  
+<head>  
+  <meta charset="utf-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <title>Language Section — Algorithms</title>  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">  
+  <style>  
+    body {  
+      margin: 0;  
+      font-family: 'Inter', sans-serif;  
+      color: #e6eef8;  
+      background: linear-gradient(135deg, #0f172a 0%, #07102a 40%, #081f3a 100%);  
+      display: flex;  
+      flex-direction: column;  
+      min-height: 100vh;  
+      -webkit-font-smoothing: antialiased;  
+      overflow-x: hidden;  
+    }  
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Language Section — Algorithms</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      color: #e6eef8;
-      background: linear-gradient(135deg, #0f172a 0%, #07102a 40%, #081f3a 100%);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }.sections {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-}
+    .sections {  
+      flex: 1;  
+      display: flex;  
+      flex-direction: column;  
+      align-items: center;  
+      justify-content: center;  
+      padding: 40px 20px;  
+      text-align: center;  
+    }  
 
-.card {
-  max-width: 900px;
-  background: rgba(255,255,255,0.04);
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-}
+    .card {  
+      max-width: 900px;  
+      background: rgba(255,255,255,0.04);  
+      padding: 30px;  
+      border-radius: 20px;  
+      border: 1px solid rgba(255,255,255,0.08);  
+      backdrop-filter: blur(10px);  
+      margin-bottom: 20px;  
+    }  
 
-h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
+    h1 {  
+      font-size: 32px;  
+      margin-bottom: 10px;  
+    }  
 
-p {
-  font-size: 18px;
-  opacity: 0.9;
-  line-height: 1.6;
-}
+    p {  
+      font-size: 18px;  
+      opacity: 0.9;  
+      line-height: 1.6;  
+    }  
 
-.accent {
-  color: #06b6d4;
-  font-weight: 600;
-}
+    .accent {  
+      color: #06b6d4;  
+      font-weight: 600;  
+    }  
 
-footer {
-  padding: 20px;
-  text-align: center;
-  background: rgba(255,255,255,0.05);
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
+    footer {  
+      padding: 20px;  
+      text-align: center;  
+      background: rgba(255,255,255,0.05);  
+      border-top: 1px solid rgba(255,255,255,0.08);  
+    }  
 
-  </style>
-</head>
-<body>
-  <main class="sections">
-    <div class="card">
-      <h1>Physical and Digital Algorithms</h1>
-      <p>
-        In the context of <span class="accent">language and communication</span>, algorithms can be understood as systems that process, organize, and interpret information. There are two main types: <strong>physical algorithms</strong> and <strong>digital algorithms</strong>.
-      </p>
-      <p>
-        <strong>Physical algorithms</strong> refer to the natural or mechanical processes our bodies and environment use to transmit messages — for instance, the way our vocal cords vibrate to produce sound waves, or how light reflects from written text into our eyes. These processes are guided by the physical laws of nature and form the basis for human communication.
-      </p>
-      <p>
-        <strong>Digital algorithms</strong>, on the other hand, are mathematical instructions executed by computers and devices. They analyze, translate, and distribute language through digital means — such as predictive text, voice recognition, or automatic translation. Digital algorithms simulate the patterns of human communication but rely on binary logic and computational efficiency.
-      </p>
-      <p>
-        Both types work together in the modern world: the <span class="accent">physical</span> enables human expression, while the <span class="accent">digital</span> amplifies and expands it globally.
-      </p>
-      <p style="margin-top:30px;font-weight:600;">Pierre Chenaut y Valentín Escudero — Quinto C</p>
-    </div>
-  </main>  <footer>
-    <div>Superpage © 2025</div>
-  </footer>
-</body>
-</html>
+    /* Carrusel */
+    .carousel {  
+      max-width: 900px;  
+      position: relative;  
+      margin: 0 auto;  
+      overflow: hidden;  
+      border-radius: 20px;  
+      border: 1px solid rgba(255,255,255,0.08);  
+      background: rgba(255,255,255,0.03);  
+    }  
+
+    .carousel-inner {  
+      display: flex;  
+      transition: transform 0.5s ease-in-out;  
+    }  
+
+    .carousel-item {  
+      min-width: 100%;  
+      padding: 30px;  
+      box-sizing: border-box;  
+    }  
+
+    .carousel-controls {  
+      position: absolute;  
+      top: 50%;  
+      width: 100%;  
+      display: flex;  
+      justify-content: space-between;  
+      transform: translateY(-50%);  
+      pointer-events: none;  
+    }  
+
+    .carousel-button {  
+      background: rgba(6,182,212,0.7);  
+      border: none;  
+      color: white;  
+      font-size: 24px;  
+      padding: 10px 15px;  
+      border-radius: 50%;  
+      cursor: pointer;  
+      pointer-events: all;  
+      transition: background 0.3s;  
+    }  
+
+    .carousel-button:hover {  
+      background: rgba(6,182,212,1);  
+    }  
+
+  </style>  
+</head>  
+<body>  
+
+  <div class="sections">  
+    <h1>Secciones Educativas</h1>  
+
+    <div class="carousel" id="carousel">  
+      <div class="carousel-inner">  
+        <div class="carousel-item">  
+          <h2 class="accent">Lengua</h2>  
+          <p>En esta sección, exploramos la riqueza del lenguaje, desde la comprensión lectora hasta la expresión escrita. Se fomenta la lectura crítica y la creación de textos originales, desarrollando la capacidad de comunicar ideas con claridad y coherencia. Aquí, cada palabra tiene peso y significado, y cada frase construye un puente entre pensamiento y expresión.</p>  
+        </div>  
+
+        <div class="carousel-item">  
+          <h2 class="accent">Construcción Ciudadana y Desarrollo Económico Social</h2>  
+          <p>Esta sección aborda la formación de ciudadanos responsables y comprometidos con la sociedad. Se profundiza en la participación comunitaria, el respeto por las normas y valores democráticos, y el desarrollo de habilidades que contribuyan al progreso económico y social. Aquí, la educación se entiende como una herramienta para transformar la realidad, generando conciencia y responsabilidad hacia los demás y el entorno.</p>  
+        </div>  
+      </div>  
+
+      <div class="carousel-controls">  
+        <button class="carousel-button" id="prev">&#10094;</button>  
+        <button class="carousel-button" id="next">&#10095;</button>  
+      </div>  
+    </div>  
+
+  </div>  
+
+  <footer>  
+    © 2025 Educational Platform  
+  </footer>  
+
+  <script>  
+    const carousel = document.querySelector('#carousel .carousel-inner');  
+    const items = document.querySelectorAll('#carousel .carousel-item');  
+    const totalItems = items.length;  
+    let index = 0;  
+
+    document.getElementById('next').addEventListener('click', () => {  
+      index = (index + 1) % totalItems;  
+      carousel.style.transform = `translateX(-${index * 100}%)`;  
+    });  
+
+    document.getElementById('prev').addEventListener('click', () => {  
+      index = (index - 1 + totalItems) % totalItems;  
+      carousel.style.transform = `translateX(-${index * 100}%)`;  
+    });  
+  </script>  
+
+</body>  
+  </html>
