@@ -3,55 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visor PDF tipo Libro</title>
+  <title>Mi Libro PDF</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
+      justify-content: flex-start;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #8EC5FC, #E0C3FC);
+      color: #333;
       padding: 20px;
     }
-    canvas {
-      border: 1px solid #333;
-      margin-bottom: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      color: #222;
     }
+
+    .pdf-container {
+      background: #fff;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    canvas {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
     button {
+      background: #6a11cb;
+      background: linear-gradient(to right, #2575fc, #6a11cb);
+      color: #fff;
+      border: none;
       padding: 10px 20px;
-      margin: 5px;
       font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .page-info {
+      font-size: 16px;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
-  <h1>Mi PDF tipo Libro</h1>
-  <canvas id="pdf-render"></canvas>
-  <div>
-    <button id="prev-page">Anterior</button>
-    <span>Página: <span id="page-num">1</span> / <span id="page-count">0</span></span>
-    <button id="next-page">Siguiente</button>
+  <h1>Mi Libro PDF</h1>
+  <div class="pdf-container">
+    <canvas id="pdf-render"></canvas>
+    <div class="controls">
+      <button id="prev-page">Anterior</button>
+      <span class="page-info">Página <span id="page-num">1</span> de <span id="page-count">0</span></span>
+      <button id="next-page">Siguiente</button>
+    </div>
   </div>
 
   <!-- PDF.js library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.12.313/pdf.min.js"></script>
   <script>
-    const url = '1.pdf'; // tu PDF en la misma carpeta
+    const url = '1.pdf'; // Tu PDF en la misma carpeta
     let pdfDoc = null,
         pageNum = 1,
         pageIsRendering = false,
         pageNumIsPending = null;
 
-    const scale = 1.2,
+    const scale = 1.5,
           canvas = document.getElementById('pdf-render'),
           ctx = canvas.getContext('2d');
 
     // Renderizar página
     const renderPage = num => {
       pageIsRendering = true;
+
       pdfDoc.getPage(num).then(page => {
         const viewport = page.getViewport({ scale });
         canvas.height = viewport.height;
@@ -82,14 +132,13 @@
       }
     };
 
-    // Mostrar página anterior
+    // Botones de navegación
     document.getElementById('prev-page').addEventListener('click', () => {
       if(pageNum <= 1) return;
       pageNum--;
       queueRenderPage(pageNum);
     });
 
-    // Mostrar página siguiente
     document.getElementById('next-page').addEventListener('click', () => {
       if(pageNum >= pdfDoc.numPages) return;
       pageNum++;
