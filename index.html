@@ -24,34 +24,26 @@
       flex-direction: column;  
       align-items: center;  
       justify-content: center;  
-      padding: 40px 20px;  
+      padding: 30px 15px;  
       text-align: center;  
-    }  
-
-    .card {  
-      max-width: 900px;  
-      background: rgba(255,255,255,0.04);  
-      padding: 30px;  
-      border-radius: 20px;  
-      border: 1px solid rgba(255,255,255,0.08);  
-      backdrop-filter: blur(10px);  
-      margin-bottom: 20px;  
+      width: 100%;  
+      box-sizing: border-box;  
     }  
 
     h1 {  
-      font-size: 32px;  
-      margin-bottom: 10px;  
+      font-size: 28px;  
+      margin-bottom: 15px;  
     }  
 
     h2 {  
-      font-size: 28px;  
-      margin-bottom: 15px;  
+      font-size: 24px;  
+      margin-bottom: 12px;  
     }
 
     p {  
-      font-size: 18px;  
+      font-size: 16px;  
       opacity: 0.9;  
-      line-height: 1.6;  
+      line-height: 1.5;  
     }  
 
     .accent {  
@@ -60,31 +52,35 @@
     }  
 
     footer {  
-      padding: 20px;  
+      padding: 15px;  
       text-align: center;  
       background: rgba(255,255,255,0.05);  
       border-top: 1px solid rgba(255,255,255,0.08);  
+      font-size: 14px;  
     }  
 
     /* Carrusel */
     .carousel {  
+      width: 100%;  
       max-width: 900px;  
       position: relative;  
       margin: 0 auto;  
       overflow: hidden;  
-      border-radius: 20px;  
+      border-radius: 15px;  
       border: 1px solid rgba(255,255,255,0.08);  
       background: rgba(255,255,255,0.03);  
+      box-sizing: border-box;  
     }  
 
     .carousel-inner {  
       display: flex;  
       transition: transform 0.5s ease-in-out;  
+      width: 100%;  
     }  
 
     .carousel-item {  
       min-width: 100%;  
-      padding: 30px;  
+      padding: 20px;  
       box-sizing: border-box;  
     }  
 
@@ -102,8 +98,8 @@
       background: rgba(6,182,212,0.7);  
       border: none;  
       color: white;  
-      font-size: 24px;  
-      padding: 10px 15px;  
+      font-size: 20px;  
+      padding: 8px 12px;  
       border-radius: 50%;  
       cursor: pointer;  
       pointer-events: all;  
@@ -119,10 +115,11 @@
       position: relative;  
       width: 100%;  
       max-width: 800px;  
-      margin: 20px auto 0;  
+      margin: 15px auto 0;  
       overflow: hidden;  
-      border-radius: 15px;  
+      border-radius: 10px;  
       border: 1px solid rgba(255,255,255,0.1);  
+      box-sizing: border-box;  
     }  
 
     .sub-carousel-inner {  
@@ -136,18 +133,29 @@
 
     .sub-carousel img {  
       width: 100%;  
+      height: auto;  
       display: block;  
-      border-radius: 15px;  
+      border-radius: 10px;  
     }  
 
     /* Texto debajo del carrusel */
     .carousel-text {  
-      margin-top: 20px;  
-      font-size: 16px;  
+      margin-top: 15px;  
+      font-size: 15px;  
       color: #cbd5e1;  
-      opacity: 0.8;  
-      max-width: 800px;  
+      opacity: 0.85;  
+      max-width: 90%;  
       text-align: center;  
+      line-height: 1.4;  
+    }  
+
+    /* Media Queries para móviles */
+    @media (max-width: 600px) {  
+      h1 { font-size: 22px; }  
+      h2 { font-size: 20px; }  
+      p { font-size: 14px; }  
+      .carousel-button { font-size: 18px; padding: 6px 10px; }  
+      .carousel-text { font-size: 13px; }  
     }  
 
   </style>  
@@ -165,7 +173,7 @@
           <p>Los algoritmos son secuencias ordenadas de pasos que permiten resolver problemas o realizar tareas específicas. Estudiarlos ayuda a desarrollar pensamiento lógico y habilidades para programar, planificar y analizar procesos. Su comprensión es clave en la tecnología y en la vida cotidiana, desde organizar datos hasta tomar decisiones eficientes.</p>  
         </div>  
 
-        <!-- Construcción ciudadana y desarrollo económico social: algoritmos aplicados al desarrollo social y económico -->  
+        <!-- Construcción ciudadana y desarrollo económico social -->  
         <div class="carousel-item">  
           <h2 class="accent">Construcción Ciudadana y Desarrollo Económico Social</h2>  
           <p>Los algoritmos también son fundamentales para el desarrollo económico y social. Permiten optimizar recursos, analizar datos de manera eficiente, tomar decisiones informadas y planificar estrategias para mejorar la calidad de vida de la comunidad. Su aplicación en proyectos sociales, administración pública y empresas contribuye a un crecimiento ordenado y sostenible.</p>  
@@ -173,7 +181,6 @@
 
         <!-- Solo fotos -->  
         <div class="carousel-item">  
-          <!-- Sub-carrusel de imágenes -->
           <div class="sub-carousel" id="subCarousel">  
             <div class="sub-carousel-inner">  
               <div class="sub-carousel-item"><img src="https://via.placeholder.com/800x400/06b6d4/ffffff?text=Algoritmo+1" alt="Algoritmo 1"></div>  
@@ -190,7 +197,6 @@
       </div>  
     </div>  
 
-    <!-- Texto debajo del carrusel -->
     <div class="carousel-text">
       Aprende sobre algoritmos y cómo su aplicación puede transformar la educación, la tecnología y la sociedad.
     </div>
@@ -218,7 +224,7 @@
       carousel.style.transform = `translateX(-${index * 100}%)`;  
     });  
 
-    // Sub-carrusel de imágenes (solo tercera sección)
+    // Sub-carrusel de imágenes
     const subCarousel = document.querySelector('#subCarousel .sub-carousel-inner');  
     const subItems = document.querySelectorAll('#subCarousel .sub-carousel-item');  
     let subIndex = 0;  
@@ -226,8 +232,8 @@
     setInterval(() => {  
       subIndex = (subIndex + 1) % subItems.length;  
       subCarousel.style.transform = `translateX(-${subIndex * 100}%)`;  
-    }, 3000); // Cambia cada 3 segundos
+    }, 3000);  
   </script>  
 
 </body>  
-            </html>
+  </html>
