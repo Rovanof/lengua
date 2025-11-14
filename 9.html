@@ -1,158 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Libro PDF</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      background: linear-gradient(120deg, #8EC5FC, #E0C3FC);
-      color: #333;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: 600;
-      color: #222;
-    }
-
-    .pdf-container {
-      background: #fff;
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    canvas {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background: #6a11cb;
-      background: linear-gradient(to right, #2575fc, #6a11cb);
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: 500;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .page-info {
-      font-size: 16px;
-      font-weight: 500;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libro PDF Pantalla Completa</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+  }
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  }
+</style>
 </head>
 <body>
-  <h1>Mi Libro PDF</h1>
-  <div class="pdf-container">
-    <canvas id="pdf-render"></canvas>
-    <div class="controls">
-      <button id="prev-page">Anterior</button>
-      <span class="page-info">Página <span id="page-num">1</span> de <span id="page-count">0</span></span>
-      <button id="next-page">Siguiente</button>
-    </div>
+
+<!-- Contenedor Swiper -->
+<div class="swiper">
+  <div class="swiper-wrapper" id="pdf-slides">
+    <!-- Las páginas se agregarán dinámicamente aquí -->
   </div>
+  <!-- Paginación opcional -->
+  <div class="swiper-pagination"></div>
+</div>
 
-  <!-- PDF.js library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.12.313/pdf.min.js"></script>
-  <script>
-    const url = '1.pdf'; // Tu PDF en la misma carpeta
-    let pdfDoc = null,
-        pageNum = 1,
-        pageIsRendering = false,
-        pageNumIsPending = null;
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.12.313/pdf.min.js"></script>
+<!-- Swiper.js -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-    const scale = 1.5,
-          canvas = document.getElementById('pdf-render'),
-          ctx = canvas.getContext('2d');
+<script>
+const url = '1.pdf'; // tu PDF
+const pdfSlides = document.getElementById('pdf-slides');
 
-    // Renderizar página
-    const renderPage = num => {
-      pageIsRendering = true;
+let pdfDoc = null;
 
-      pdfDoc.getPage(num).then(page => {
-        const viewport = page.getViewport({ scale });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+// Cargar PDF
+pdfjsLib.getDocument(url).promise.then(pdf => {
+  pdfDoc = pdf;
 
-        const renderCtx = {
-          canvasContext: ctx,
-          viewport
-        };
+  for(let i = 1; i <= pdfDoc.numPages; i++){
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'page-' + i;
+    slide.appendChild(canvas);
+    pdfSlides.appendChild(slide);
 
-        page.render(renderCtx).promise.then(() => {
-          pageIsRendering = false;
-          if(pageNumIsPending !== null) {
-            renderPage(pageNumIsPending);
-            pageNumIsPending = null;
-          }
-        });
+    renderPage(i, canvas);
+  }
 
-        document.getElementById('page-num').textContent = num;
-      });
-    };
+  // Inicializar Swiper después de cargar todas las páginas
+  new Swiper('.swiper', {
+    direction: 'horizontal',
+    loop: false,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    grabCursor: true,
+  });
+});
 
-    const queueRenderPage = num => {
-      if(pageIsRendering) {
-        pageNumIsPending = num;
-      } else {
-        renderPage(num);
-      }
-    };
+function renderPage(num, canvas) {
+  pdfDoc.getPage(num).then(page => {
+    const viewport = page.getViewport({ scale: 1 });
+    const scale = Math.min(window.innerWidth / viewport.width, window.innerHeight / viewport.height);
+    const scaledViewport = page.getViewport({ scale });
 
-    // Botones de navegación
-    document.getElementById('prev-page').addEventListener('click', () => {
-      if(pageNum <= 1) return;
-      pageNum--;
-      queueRenderPage(pageNum);
-    });
+    canvas.width = scaledViewport.width;
+    canvas.height = scaledViewport.height;
 
-    document.getElementById('next-page').addEventListener('click', () => {
-      if(pageNum >= pdfDoc.numPages) return;
-      pageNum++;
-      queueRenderPage(pageNum);
-    });
+    const ctx = canvas.getContext('2d');
+    page.render({ canvasContext: ctx, viewport: scaledViewport });
+  });
+}
 
-    // Cargar PDF
-    pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-      pdfDoc = pdfDoc_;
-      document.getElementById('page-count').textContent = pdfDoc.numPages;
-      renderPage(pageNum);
-    }).catch(err => {
-      console.error('Error cargando PDF: ' + err.message);
-    });
-  </script>
+// Ajustar al redimensionar la ventana
+window.addEventListener('resize', () => {
+  if(!pdfDoc) return;
+  for(let i = 1; i <= pdfDoc.numPages; i++){
+    const canvas = document.getElementById('page-' + i);
+    renderPage(i, canvas);
+  }
+});
+</script>
+
 </body>
 </html>
