@@ -3,7 +3,7 @@
 <head>  
   <meta charset="utf-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <title>Language Section — Algorithms</title>  
+  <title>Secciones Educativas — Algoritmos</title>  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">  
   <style>  
     body {  
@@ -114,7 +114,7 @@
       background: rgba(6,182,212,1);  
     }  
 
-    /* Sub-carrusel de imágenes dentro de la tercera sección */
+    /* Sub-carrusel de imágenes */
     .sub-carousel {  
       position: relative;  
       width: 100%;  
@@ -149,20 +149,20 @@
 
     <div class="carousel" id="carousel">  
       <div class="carousel-inner">  
+        <!-- Lengua: contenido sobre algoritmos -->  
         <div class="carousel-item">  
           <h2 class="accent">Lengua</h2>  
-          <p>En esta sección, exploramos la riqueza del lenguaje, desde la comprensión lectora hasta la expresión escrita. Se fomenta la lectura crítica y la creación de textos originales, desarrollando la capacidad de comunicar ideas con claridad y coherencia. Aquí, cada palabra tiene peso y significado, y cada frase construye un puente entre pensamiento y expresión.</p>  
+          <p>Los algoritmos son secuencias ordenadas de pasos que permiten resolver problemas o realizar tareas específicas. Estudiarlos ayuda a desarrollar pensamiento lógico y habilidades para programar, planificar y analizar procesos. Su comprensión es clave en la tecnología y en la vida cotidiana, desde organizar datos hasta tomar decisiones eficientes.</p>  
         </div>  
 
+        <!-- Construcción ciudadana y desarrollo económico social: algoritmos aplicados al desarrollo social y económico -->  
         <div class="carousel-item">  
           <h2 class="accent">Construcción Ciudadana y Desarrollo Económico Social</h2>  
-          <p>Esta sección aborda la formación de ciudadanos responsables y comprometidos con la sociedad. Se profundiza en la participación comunitaria, el respeto por las normas y valores democráticos, y el desarrollo de habilidades que contribuyan al progreso económico y social. Aquí, la educación se entiende como una herramienta para transformar la realidad, generando conciencia y responsabilidad hacia los demás y el entorno.</p>  
+          <p>Los algoritmos también son fundamentales para el desarrollo económico y social. Permiten optimizar recursos, analizar datos de manera eficiente, tomar decisiones informadas y planificar estrategias para mejorar la calidad de vida de la comunidad. Su aplicación en proyectos sociales, administración pública y empresas contribuye a un crecimiento ordenado y sostenible.</p>  
         </div>  
 
+        <!-- Solo fotos -->  
         <div class="carousel-item">  
-          <h2 class="accent">Qué son los Algoritmos</h2>  
-          <p>Los algoritmos son secuencias ordenadas de pasos que permiten resolver problemas o realizar tareas específicas. Estudiarlos ayuda a desarrollar pensamiento lógico y habilidades para programar, planificar y analizar procesos. Su comprensión es clave en la tecnología y en la vida cotidiana, desde organizar datos hasta tomar decisiones eficientes.</p>  
-
           <!-- Sub-carrusel de imágenes -->
           <div class="sub-carousel" id="subCarousel">  
             <div class="sub-carousel-inner">  
@@ -203,7 +203,7 @@
       carousel.style.transform = `translateX(-${index * 100}%)`;  
     });  
 
-    // Sub-carrusel de imágenes
+    // Sub-carrusel de imágenes (solo tercera sección)
     const subCarousel = document.querySelector('#subCarousel .sub-carousel-inner');  
     const subItems = document.querySelectorAll('#subCarousel .sub-carousel-item');  
     let subIndex = 0;  
