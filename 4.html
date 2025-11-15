@@ -15,10 +15,14 @@
     .msg.user{background:#1b3350;margin-left:auto;color:#fff}
     .msg.ai{background:#123456;color:#eaf4ff;border-left:3px solid var(--rock)}
     .input-area{margin-top:10px}
-    .input-area input{width:100%;padding:12px;border-radius:12px;background:#0a1828;border:1px solid #1e3a5c;color:var(--text);font-size:1rem}
+    .input-area input{width:75%;padding:12px;border-radius:12px;background:#0a1828;border:1px solid #1e3a5c;color:var(--text);font-size:1rem;display:inline-block;margin-right:6px}
     .input-area input:focus{outline:2px solid var(--rock)}
     .muted{color:#aac7e6;font-size:.85rem;margin-bottom:12px;text-align:center}
-  </style>
+    .input-area button{width:22%;padding:12px;border-radius:12px;background:var(--rock);border:0;color:#fff;font-weight:600;font-size:1rem;box-shadow:0 0 10px #0008;cursor:pointer;}
+  .input-area button:active{transform:scale(.97)}
+  .input-area button{padding:12px 16px;border-radius:12px;background:var(--rock);border:0;color:#fff;font-weight:600;font-size:1rem;box-shadow:0 0 10px #0008;cursor:pointer;}
+  .input-area button:active{transform:scale(.97)}
+</style>
 </head>
 <body>
   <div class="chat-container">
@@ -76,6 +80,7 @@
     }
 
     // ------------------ ENVIAR ------------------
+    document.getElementById('sendBtn').onclick = send;
     document.getElementById('userInput').addEventListener('keypress', e =>{
       if(e.key === 'Enter') send();
     });
@@ -93,4 +98,4 @@
       speak(response);
     }
   </script></body>
-</html>
+  </html>
