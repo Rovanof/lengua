@@ -26,7 +26,8 @@
     <p class="muted">Escribe una pregunta abajo. El sistema busca la mejor coincidencia en tu base local (que puedes editar en el código del HTML). <br>Las respuestas también pueden escucharse con voz.</p><div id="chatWindow" class="chat-window"></div>
 
 <div class="input-area">
-  <input id="userInput" type="text" placeholder="Escribe tu pregunta... (enter para enviar)" />
+  <input id="userInput" type="text" placeholder="Escribe tu pregunta..." />
+  <button id="sendBtn">Enviar</button>
 </div>
 
   </div>  <script>
@@ -34,7 +35,6 @@
     const QA_DB = [
       { q: "¿Cuál es la capital de Argentina?", a: "Buenos Aires es la capital de Argentina." },
       { q: "¿Qué es localStorage?", a: "Es un sistema de almacenamiento local del navegador que guarda datos en forma de texto." }
-      { q: "Hola?" , a: "Holaaa."}
     ];
 
     // ------------------ CHAT ------------------
@@ -62,7 +62,7 @@
         if(score > bestScore){ bestScore = score; best = entry; }
       });
 
-      return best ? best.a : "No tengo una respuesta para eso aún. Puedes agregarla editando el HTML.";
+      return best ? best.a : "No se encuentra una respuesta para su solicitud";
     }
 
     // ------------------ VOZ ------------------
