@@ -23,12 +23,11 @@
     align-items: center;
     background: #111;
   }
-  canvas {
-    background: #fff; /* Fondo blanco para el PDF */
+  .pdf-page {
     max-width: 100%;
     max-height: 100%;
-    border-radius: 4px;
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    border-radius: 4px;
   }
 </style>
 </head>
@@ -47,59 +46,43 @@ const url = '1.pdf';
 const pdfSlides = document.getElementById('pdf-slides');
 let pdfDoc = null;
 
-// Cargar PDF
-pdfjsLib.getDocument(url).promise.then(pdf => {
-  pdfDoc = pdf;
+async function renderPDF() {
+  pdfDoc = await pdfjsLib.getDocument(url).promise;
 
-  for(let i = 1; i <= pdfDoc.numPages; i++){
+  for(let i = 1; i <= pdfDoc.numPages; i++) {
+    const page = await pdfDoc.getPage(i);
+    const viewport = page.getViewport({ scale: 2 }); // mayor resolución
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    // Fondo blanco para que no aparezca negro
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL();
+    img.classList.add('pdf-page');
+
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
-    const canvas = document.createElement('canvas');
-    canvas.id = 'page-' + i;
-    slide.appendChild(canvas);
+    slide.appendChild(img);
     pdfSlides.appendChild(slide);
-
-    renderPage(i, canvas);
   }
 
   // Inicializar Swiper
   new Swiper('.swiper', {
     direction: 'horizontal',
     loop: false,
-    pagination: { el: '.swiper-pagination', clickable: true },
     grabCursor: true,
-  });
-});
-
-function renderPage(num, canvas) {
-  pdfDoc.getPage(num).then(page => {
-    const viewport = page.getViewport({ scale: 1 });
-    // Escalar para ajustar a pantalla completa
-    const scale = Math.min(window.innerWidth / viewport.width, window.innerHeight / viewport.height);
-    const scaledViewport = page.getViewport({ scale });
-
-    canvas.width = scaledViewport.width;
-    canvas.height = scaledViewport.height;
-
-    const ctx = canvas.getContext('2d');
-
-    // Pintar fondo blanco antes de renderizar PDF
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    page.render({ canvasContext: ctx, viewport: scaledViewport });
+    pagination: { el: '.swiper-pagination', clickable: true }
   });
 }
 
-// Ajustar al redimensionar
-window.addEventListener('resize', () => {
-  if(!pdfDoc) return;
-  for(let i = 1; i <= pdfDoc.numPages; i++){
-    const canvas = document.getElementById('page-' + i);
-    renderPage(i, canvas);
-  }
-});
+renderPDF();
 </script>
-
 </body>
 </html>
