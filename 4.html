@@ -1,0 +1,241 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Base simple de Preguntas y Respuestas (local)</title>
+  <style>
+    :root{font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;}
+    body{max-width:900px;margin:24px auto;padding:16px}
+    h1{font-size:1.4rem;margin-bottom:8px}
+    .card{border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:12px}
+    label{display:block;margin-top:8px;font-size:.9rem}
+    input[type=text], textarea{width:100%;padding:8px;margin-top:6px;border:1px solid #ccc;border-radius:6px}
+    button{margin-top:10px;padding:8px 12px;border-radius:8px;border:0;background:#2b6cb0;color:white;cursor:pointer}
+    button.secondary{background:#718096}
+    .qa-list{margin-top:18px}
+    .qa-item{padding:10px;border-bottom:1px solid #eee}
+    .qa-actions{margin-top:8px}
+    .small{font-size:.85rem;color:#555}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .search{margin-top:10px}
+    pre{white-space:pre-wrap;background:#f7fafc;padding:8px;border-radius:6px}
+    .muted{color:#777;font-size:.9rem}
+    @media (max-width:480px){body{margin:10px}}
+  </style>
+</head>
+<body>
+  <h1>Base local de Preguntas y Respuestas</h1>
+  <p class="muted">Esta página guarda las preguntas y respuestas en <strong>localStorage</strong> del navegador. Puedes añadir, editar, borrar, buscar y exportar/importar en JSON.</p>  <div class="card">
+    <strong>Agregar nueva entrada</strong>
+    <label for="q">Pregunta</label>
+    <input id="q" type="text" placeholder="Escribe la pregunta" />
+    <label for="a">Respuesta</label>
+    <textarea id="a" rows="4" placeholder="Escribe la respuesta"></textarea>
+    <div class="row">
+      <button id="addBtn">Agregar</button>
+      <button id="clearBtn" class="secondary">Borrar todo</button>
+      <button id="exportBtn" class="secondary">Exportar JSON</button>
+      <button id="importBtn" class="secondary">Importar JSON</button>
+    </div>
+    <input id="importFile" type="file" accept="application/json" style="display:none" />
+  </div>  <div class="card">
+    <div class="row">
+      <input id="search" class="search" type="text" placeholder="Buscar por texto en pregunta o respuesta" />
+      <select id="sort">
+        <option value="newest">Más recientes</option>
+        <option value="oldest">Más antiguas</option>
+        <option value="az">A → Z (pregunta)</option>
+        <option value="za">Z → A (pregunta)</option>
+      </select>
+    </div><div id="list" class="qa-list"></div>
+
+  </div>  <script>
+    // Clave en localStorage
+    const STORAGE_KEY = 'qa_db_v1';
+
+    // Leer DB (array de objetos {id, question, answer, createdAt})
+    function readDB(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        console.error('Error leyendo DB', e);
+        return [];
+      }
+    }
+
+    // Guardar DB
+    function saveDB(arr){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }
+
+    // Util: generar id simple
+    function uid(){
+      return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+    }
+
+    // Render lista
+    function render(){
+      const listEl = document.getElementById('list');
+      const all = readDB();
+      const search = document.getElementById('search').value.trim().toLowerCase();
+      const sort = document.getElementById('sort').value;
+
+      let filtered = all.filter(item => {
+        if(!search) return true;
+        return (item.question + ' ' + item.answer).toLowerCase().includes(search);
+      });
+
+      if(sort === 'newest') filtered.sort((a,b)=>b.createdAt - a.createdAt);
+      if(sort === 'oldest') filtered.sort((a,b)=>a.createdAt - b.createdAt);
+      if(sort === 'az') filtered.sort((a,b)=> a.question.localeCompare(b.question));
+      if(sort === 'za') filtered.sort((a,b)=> b.question.localeCompare(a.question));
+
+      if(filtered.length === 0){
+        listEl.innerHTML = '<p class="small">No hay entradas que mostrar.</p>';
+        return;
+      }
+
+      listEl.innerHTML = '';
+      filtered.forEach(item=>{
+        const div = document.createElement('div');
+        div.className = 'qa-item';
+        div.innerHTML = `
+          <strong>${escapeHtml(item.question)}</strong>
+          <div class="small">ID: ${item.id} • ${new Date(item.createdAt).toLocaleString()}</div>
+          <pre>${escapeHtml(item.answer)}</pre>`;
+
+    const actions = document.createElement('div');
+    actions.className = 'qa-actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Editar';
+    editBtn.onclick = ()=> startEdit(item.id);
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'Borrar';
+    delBtn.className = 'secondary';
+    delBtn.onclick = ()=> deleteItem(item.id);
+
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+    div.appendChild(actions);
+    listEl.appendChild(div);
+  });
+}
+
+// Añadir
+document.getElementById('addBtn').addEventListener('click', ()=>{
+  const q = document.getElementById('q').value.trim();
+  const a = document.getElementById('a').value.trim();
+  if(!q){ alert('La pregunta no puede estar vacía'); return; }
+  const db = readDB();
+  db.push({ id: uid(), question: q, answer: a, createdAt: Date.now() });
+  saveDB(db);
+  document.getElementById('q').value = '';
+  document.getElementById('a').value = '';
+  render();
+});
+
+// Borrar todo
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(!confirm('Borrar TODAS las entradas? Esta acción no se puede deshacer.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  render();
+});
+
+// Eliminar item
+function deleteItem(id){
+  const db = readDB();
+  const idx = db.findIndex(x=>x.id===id);
+  if(idx === -1) return;
+  if(!confirm('Borrar esta entrada?')) return;
+  db.splice(idx,1);
+  saveDB(db);
+  render();
+}
+
+// Editar
+function startEdit(id){
+  const db = readDB();
+  const item = db.find(x=>x.id===id);
+  if(!item) return;
+  const newQ = prompt('Editar pregunta:', item.question);
+  if(newQ === null) return; // cancel
+  const newA = prompt('Editar respuesta:', item.answer);
+  if(newA === null) return;
+  item.question = newQ.trim() || item.question;
+  item.answer = newA;
+  saveDB(db);
+  render();
+}
+
+// Exportar
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const db = readDB();
+  const blob = new Blob([JSON.stringify(db, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'qa_export.json';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Importar
+document.getElementById('importBtn').addEventListener('click', ()=>{
+  document.getElementById('importFile').click();
+});
+document.getElementById('importFile').addEventListener('change', (e)=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!Array.isArray(data)) throw new Error('Formato inválido');
+      // Simple merge: conservar existentes y añadir nuevos con id si faltan
+      const db = readDB();
+      const ids = new Set(db.map(x=>x.id));
+      data.forEach(item=>{
+        if(!item.id) item.id = uid();
+        if(!item.createdAt) item.createdAt = Date.now();
+        if(!ids.has(item.id)) db.push(item);
+      });
+      saveDB(db);
+      render();
+      alert('Importación finalizada');
+    }catch(err){
+      alert('Error al importar: ' + err.message);
+    }
+  };
+  reader.readAsText(f);
+  e.target.value = '';
+});
+
+// Buscador y orden
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('sort').addEventListener('change', render);
+
+// Escape simple
+function escapeHtml(str){
+  if(!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Inicial
+(function(){
+  // Si no hay datos, agregar ejemplo
+  const db = readDB();
+  if(db.length === 0){
+    db.push({ id: uid(), question: '¿Cuál es la capital de Argentina?', answer: 'Buenos Aires', createdAt: Date.now() });
+    db.push({ id: uid(), question: '¿Qué es localStorage?', answer: 'Un almacenamiento simple en el navegador para datos en forma de texto.', createdAt: Date.now()+1 });
+    saveDB(db);
+  }
+  render();
+})();
+
+  </script>
+</body>
+</html>
