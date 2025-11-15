@@ -15,12 +15,10 @@
     .msg.user{background:#1b3350;margin-left:auto;color:#fff}
     .msg.ai{background:#123456;color:#eaf4ff;border-left:3px solid var(--rock)}
     .input-area{margin-top:10px}
-    .input-area input{width:75%;padding:12px;border-radius:12px;background:#0a1828;border:1px solid #1e3a5c;color:var(--text);font-size:1rem;display:inline-block;margin-right:6px}
+    .input-area input{width:100%;padding:12px;border-radius:12px;background:#0a1828;border:1px solid #1e3a5c;color:var(--text);font-size:1rem}
     .input-area input:focus{outline:2px solid var(--rock)}
     .muted{color:#aac7e6;font-size:.85rem;margin-bottom:12px;text-align:center}
-    .input-area button{width:22%;padding:12px;border-radius:12px;background:var(--rock);border:0;color:#fff;font-weight:600;font-size:1rem;box-shadow:0 0 10px #0008;cursor:pointer;}
-  .input-area button:active{transform:scale(.97)}
-  .input-area button{padding:12px 16px;border-radius:12px;background:var(--rock);border:0;color:#fff;font-weight:600;font-size:1rem;box-shadow:0 0 10px #0008;cursor:pointer;}
+    .input-area button{padding:12px 16px;border-radius:12px;background:var(--rock);border:0;color:#fff;font-weight:600;font-size:1rem;box-shadow:0 0 10px #0008;cursor:pointer;}
   .input-area button:active{transform:scale(.97)}
 </style>
 </head>
@@ -29,8 +27,8 @@
     <h1>Mini IA Local</h1>
     <p class="muted">Escribe una pregunta abajo. El sistema busca la mejor coincidencia en tu base local (que puedes editar en el código del HTML). <br>Las respuestas también pueden escucharse con voz.</p><div id="chatWindow" class="chat-window"></div>
 
-<div class="input-area">
-  <input id="userInput" type="text" placeholder="Escribe tu pregunta..." />
+<div class="input-area" style="display:flex; gap:8px; align-items:center;">
+  <input id="userInput" type="text" placeholder="Escribe tu pregunta..." style="flex:1;" />
   <button id="sendBtn">Enviar</button>
 </div>
 
@@ -69,9 +67,7 @@
       return best ? best.a : "No se encuentra una respuesta para su solicitud";
     }
 
-    // ------------------ VOZ ------------------
-    function speak(text){
-      const u = new SpeechSynthesisUtterance(text);
+    // (Voz eliminada) 
       u.lang = "es-AR";
       const voices = speechSynthesis.getVoices();
       const male = voices.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("hombre") || v.name.toLowerCase().includes("google") );
@@ -95,7 +91,7 @@
 
       const response = findBestMatch(text);
       addMessage(response, "ai");
-      speak(response);
+      
     }
   </script></body>
-  </html>
+</html>
