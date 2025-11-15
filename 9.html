@@ -24,6 +24,7 @@
     background: #111;
   }
   canvas {
+    background: #fff; /* Fondo blanco para el PDF */
     max-width: 100%;
     max-height: 100%;
     border-radius: 4px;
@@ -33,24 +34,17 @@
 </head>
 <body>
 
-<!-- Contenedor Swiper -->
 <div class="swiper">
-  <div class="swiper-wrapper" id="pdf-slides">
-    <!-- Las páginas se agregarán dinámicamente aquí -->
-  </div>
-  <!-- Paginación opcional -->
+  <div class="swiper-wrapper" id="pdf-slides"></div>
   <div class="swiper-pagination"></div>
 </div>
 
-<!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.12.313/pdf.min.js"></script>
-<!-- Swiper.js -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <script>
-const url = '1.pdf'; // tu PDF
+const url = '1.pdf';
 const pdfSlides = document.getElementById('pdf-slides');
-
 let pdfDoc = null;
 
 // Cargar PDF
@@ -68,7 +62,7 @@ pdfjsLib.getDocument(url).promise.then(pdf => {
     renderPage(i, canvas);
   }
 
-  // Inicializar Swiper después de cargar todas las páginas
+  // Inicializar Swiper
   new Swiper('.swiper', {
     direction: 'horizontal',
     loop: false,
@@ -80,6 +74,7 @@ pdfjsLib.getDocument(url).promise.then(pdf => {
 function renderPage(num, canvas) {
   pdfDoc.getPage(num).then(page => {
     const viewport = page.getViewport({ scale: 1 });
+    // Escalar para ajustar a pantalla completa
     const scale = Math.min(window.innerWidth / viewport.width, window.innerHeight / viewport.height);
     const scaledViewport = page.getViewport({ scale });
 
@@ -87,11 +82,16 @@ function renderPage(num, canvas) {
     canvas.height = scaledViewport.height;
 
     const ctx = canvas.getContext('2d');
+
+    // Pintar fondo blanco antes de renderizar PDF
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     page.render({ canvasContext: ctx, viewport: scaledViewport });
   });
 }
 
-// Ajustar al redimensionar la ventana
+// Ajustar al redimensionar
 window.addEventListener('resize', () => {
   if(!pdfDoc) return;
   for(let i = 1; i <= pdfDoc.numPages; i++){
