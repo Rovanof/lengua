@@ -236,6 +236,32 @@ function escapeHtml(str){
   render();
 })();
 
-  </script>
+  // ----- Agregar voz (Text-To-Speech) -----
+function speak(text){
+  if(!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'es-AR';
+  speechSynthesis.speak(utter);
+}
+
+// Agregar botón de voz en cada item (modificar render)
+const originalRender = render;
+render = function(){
+  originalRender();
+  // Insertar botones de voz
+  const items = document.querySelectorAll('.qa-item');
+  items.forEach((item)=>{
+    const pre = item.querySelector('pre');
+    if(pre){
+      const btn = document.createElement('button');
+      btn.textContent = '🔊 Escuchar';
+      btn.style.marginLeft = '8px';
+      btn.onclick = ()=> speak(pre.textContent);
+      item.appendChild(btn);
+    }
+  });
+};
+
+</script>
 </body>
 </html>
