@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -34,16 +35,7 @@
     h1{font-size:1.15rem;margin:0}
     p.lead{margin:8px 0 18px;opacity:0.95}
     article{font-size:1rem;line-height:1.6;background:var(--glass);padding:16px;border-radius:12px}
-    blockquote{margin:0 0 12px;padding-left:12px;border-left:3px solid rgba(255,255,255,0.07);font-style:italic}
-    .meta{font-size:0.86rem;opacity:0.8;margin-top:10px}
-    footer{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:999px;font-weight:600;cursor:pointer}
-    .small{font-size:0.85rem;opacity:0.85}
-    @media (max-width:420px){
-      .card{padding:16px;border-radius:14px}
-      h1{font-size:1rem}
-      article{font-size:0.98rem}
-    }
+    img{width:100%;margin-top:20px;border-radius:12px}
   </style>
 </head>
 <body>
@@ -55,41 +47,46 @@
           <h1>Love — A short philosophical text</h1>
           <div class="meta small">English — Mobile-friendly layout</div>
         </div>
-      </header>
+      </header><p class="lead">A concise reflection for reading slowly. Use portrait mode for best experience.</p>
 
-      <p class="lead">A concise reflection for reading slowly. Use portrait mode for best experience.</p>
+  <article>
+    <!-- TEXTO NUEVO COLOCADO COMPLETO -->
+    <p><strong>1. Analysis of the text “Money as a means or an end” (Aristotle and Epicurus)</strong></p>
+    <p>Money was created as a means to facilitate exchanges between people. For Aristotle, its purpose was to serve a good life, not dominate it. Using money as a means means seeing it as a tool to satisfy real needs such as food, shelter, education or rest. When money becomes an end, it controls our lives, creates meaningless desires and distances us from what matters. Aristotle values virtue and the good life above money. Epicurus believes true happiness comes from fulfilling basic needs, cultivating friendship, serenity and thought.</p>
+    <p><em>Answers:</em><br>a) Its original function was to be a means of exchange.<br>b) As a means, money is a tool; as an end, it becomes an obsession.<br>c) Consequences: dependence, anxiety, loss of freedom, empty desires.<br>d) Aristotle values virtue; Epicurus values friendship, serenity and thought.<br>e) Happiness comes from simplicity and essential needs.</p>
 
-      <article>
-        <blockquote>“To love is an act of courage.” — Søren Kierkegaard</blockquote>
+    <hr>
 
-        <p><strong>Love is not a feeling that arrives when everything is calm; it is a force that reveals who we are when everything falls apart.</strong></p>
+    <p><strong>2. Reflection: To consume or to be</strong></p>
+    <p>We live surrounded by messages telling us what to buy and how to live. Advertising and social networks influence our desires. Consuming does not always mean living better. Fromm distinguishes “having” from “being”: identity based on possessions creates dependence, while being leads to deeper happiness. Conscious consumption means choosing freely what truly benefits us.</p>
+    <p><em>Answers:</em><br>a) Needs are essential; desires are often created by marketing.<br>b) Money gives freedom when used wisely, but dependence when it controls us.<br>c) “The role of money in my life”: Money is a tool to satisfy real needs, but it should not define who I am.</p>
 
-        <p>To love is to allow someone to see our cracks without fearing their departure, and still remain steady, because the truth of love is not found in perfection but in surrender.</p>
+    <hr>
 
-        <p>Whoever truly loves does not dominate nor possess; they walk beside, breathe, and allow the other to be.</p>
+    <p><strong>3. Ethics of consumption and responsibility (Class 2)</strong></p>
+    <p>Responsible consumers think before acting: questioning if we really need what we want, considering how products are made, and thinking about the consequences our decisions have on society and the planet. Conscious consumption is not about stopping enjoyment but choosing with meaning.</p>
+    <p><em>Answers:</em><br>1. We are not fully free, since advertising influences us.<br>2. Conscious consumption means thinking before buying and considering impact.<br>3. Yes, we can be happier with fewer things.<br>4. Concept map content: need vs desire, impact, responsibility, ethics, Kant, Fromm, Epicurus.</p>
 
-        <p>And in that silent act of understanding, we discover that love is not a path outward but a return inward: to what we are, to what we may become, to the eternal that lives within each of us.</p>
-      </article>
+    <hr>
 
-      <footer>
-        <button class="btn" onclick="copyText()">Copy text</button>
-        <a class="btn" href="#" onclick="share()">Share (native)</a>
-        <div style="flex:1"></div>
-        <div class="small">Designed for mobile — tap the card to focus</div>
-      </footer>
-    </div>
+    <p><strong>4. Bilingual campaign</strong></p>
+    <p><strong>Spanish message:</strong> “Elegir con conciencia para vivir mejor: el consumo responsable nos hace más libres.”<br>
+    <strong>English message:</strong> “Choose consciously to live better: responsible consumption makes us freer.”</p>
+    <p><em>Philosophical meaning:</em> Kant (dignity), Fromm (being), Epicurus (simplicity).<br>
+    <em>Linguistic explanation:</em> Simple structure, clear meaning.<br>
+    <em>Design:</em> Green/blue colors, simple images, symbols of freedom.</p>
+
+    <hr>
+
+    <p><strong>5. Oral defense (summary)</strong></p>
+    <p>We chose the value of responsibility and freedom in consumption. The campaign is based on Kant, Fromm and Epicurus. The translation is simple and clear. We learned that conscious consumption gives freedom and leads to a more authentic and sustainable life.</p>
+  </article>
+
+  <!-- IMAGEN AUTOMÁTICA DESDE GITHUB -->
+  <img src="https://raw.githubusercontent.com/Rovanof/lengua/main/foto.png" alt="Imagen desde GitHub">
+
+</div>
+
   </div>
-
-  <script>
-    function copyText(){
-      const text = `Love is not a feeling...`;
-      navigator.clipboard?.writeText(text).then(()=>alert('Text copied')).catch(()=>alert('Unavailable'));
-    }
-    function share(){
-      if(navigator.share){
-        navigator.share({title:document.title,text:document.querySelector('article').innerText});
-      } else alert('Not supported');
-    }
-  </script>
 </body>
-</html>
+      </html>
