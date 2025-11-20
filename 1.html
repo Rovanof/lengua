@@ -1,0 +1,233 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de Proteína — Estilo Rockefeller</title>
+  <style>
+    /* Rockefeller-inspired: sobrio, clásico, elegante */
+    :root{
+      --bg:#071233; /* deep navy */
+      --card:#08183a;
+      --gold:#c9a24a;
+      --muted:#bfc8d6;
+      --glass: rgba(255,255,255,0.03);
+      --accent:#11304f;
+      --radius:18px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;background:linear-gradient(180deg,var(--bg),#051028 70%);
+      font-family: 'Georgia', 'Times New Roman', serif;color:var(--muted);
+      display:flex;align-items:center;justify-content:center;padding:32px;
+    }
+    .frame{
+      width:960px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:22px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.7);border:1px solid rgba(201,162,74,0.08);
+      display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start;
+    }
+    header{grid-column:1 / -1;display:flex;align-items:center;gap:18px}
+    .crest{width:84px;height:84px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#f6e9b1);display:flex;align-items:center;justify-content:center;color:#071233;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:20px;color:var(--gold);letter-spacing:0.6px}
+    p.lead{margin:0;color:var(--muted);opacity:0.9}.card{background:var(--card);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);}
+label{display:block;font-size:12px;margin-bottom:6px;color:var(--muted);}
+input[type="number"], select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:var(--muted);font-size:15px}
+.small{font-size:13px;color:#98a4b8}
+.actions{display:flex;gap:10px;margin-top:12px}
+button{background:var(--gold);border:none;padding:10px 14px;border-radius:10px;font-weight:700;color:#071233;cursor:pointer}
+button.secondary{background:transparent;border:1px solid rgba(201,162,74,0.14);color:var(--muted)}
+
+.results{display:flex;flex-direction:column;gap:12px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));border:1px solid rgba(255,255,255,0.02)}
+.muted{color:#9fb0c8;font-size:13px}
+
+.food-card{background:linear-gradient(90deg, rgba(17,48,79,0.18), rgba(2,6,23,0.1));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+footer{grid-column:1 / -1;text-align:center;color:#8193a8;font-size:12px;margin-top:8px}
+
+@media(max-width:820px){
+  .frame{grid-template-columns:1fr;}
+}
+
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <div class="crest">R</div>
+      <div>
+        <h1>Calculadora de proteína — Estilo Rockefeller</h1>
+        <p class="lead">Introduce tu peso y altura; te digo cuántos gramos de proteína necesitas y qué aportan 3 dátiles + 200 ml de leche mezclada con esa proteína.</p>
+      </div>
+    </header><section class="card">
+  <div>
+    <label>Peso (kg)</label>
+    <input id="weight" type="number" step="0.1" value="78.5" min="20" />
+  </div>
+  <div style="margin-top:12px">
+    <label>Altura (cm)</label>
+    <input id="height" type="number" step="0.1" value="175" min="80" />
+  </div>
+  <div style="margin-top:12px">
+    <label>Tipo de objetivo</label>
+    <select id="goal">
+      <option value="1.6">Mantenimiento / actividad baja (1.6 g/kg)</option>
+      <option value="1.8" selected>Entrenamiento regular / fuerza (1.8 g/kg)</option>
+      <option value="2.2">Entrenamiento intenso / ganancia muscular (2.2 g/kg)</option>
+    </select>
+  </div>
+
+  <div style="margin-top:12px">
+    <label>Leche (200 ml) — elige tipo</label>
+    <select id="milkType">
+      <option value="whole">Entera (aprox. 3.4 g grasa /100ml)</option>
+      <option value="semi">Semidescremada</option>
+      <option value="skim">Descremada</option>
+    </select>
+  </div>
+
+  <div class="actions">
+    <button id="calcBtn">Calcular</button>
+    <button class="secondary" id="resetBtn">Restablecer</button>
+  </div>
+
+  <div style="margin-top:12px" class="small">Suposiciones: La proteína recomendada se calcula como <em>peso × factor</em> (g/kg). Asumimos proteína en polvo casi pura (4 kcal por g de proteína) y valores nutricionales promedio para dátiles y leche.</div>
+</section>
+
+<aside class="card">
+  <div class="results">
+    <div class="result-row">
+      <div>
+        <div class="muted">Proteína recomendada</div>
+        <div style="font-size:20px;font-weight:700;color:var(--gold)" id="protReq">— g</div>
+      </div>
+      <div style="text-align:right">
+        <div class="muted">Proteína en 200 ml leche</div>
+        <div id="milkProt" style="font-weight:700">— g</div>
+      </div>
+    </div>
+
+    <div class="result-row">
+      <div>
+        <div class="muted">Proteína en polvo necesaria</div>
+        <div id="powderNeeded" style="font-weight:700">— g</div>
+      </div>
+      <div style="text-align:right">
+        <div class="muted">Calorías estimadas (mezcla)</div>
+        <div id="calMix" style="font-weight:700">— kcal</div>
+      </div>
+    </div>
+
+    <div class="food-card">
+      <div style="font-weight:700;margin-bottom:8px">Qué aportan: 3 dátiles + 200 ml leche + proteína</div>
+      <div class="food-grid">
+        <div>
+          <div class="small">Calorías</div>
+          <div id="totCal" style="font-weight:700">— kcal</div>
+        </div>
+        <div>
+          <div class="small">Proteínas</div>
+          <div id="totProt" style="font-weight:700">— g</div>
+        </div>
+        <div>
+          <div class="small">Carbohidratos</div>
+          <div id="totCarb" style="font-weight:700">— g</div>
+        </div>
+        <div>
+          <div class="small">Grasas</div>
+          <div id="totFat" style="font-weight:700">— g</div>
+        </div>
+        <div>
+          <div class="small">Fibra</div>
+          <div id="totFib" style="font-weight:700">— g</div>
+        </div>
+        <div>
+          <div class="small">Potasio (aprox.)</div>
+          <div id="totK" style="font-weight:700">— mg</div>
+        </div>
+      </div>
+      <div class="small" style="margin-top:8px">Valores aproximados. Para cálculos de alto detalle, usar etiqueta nutricional de tu producto.</div>
+    </div>
+  </div>
+</aside>
+
+<footer>Hecho con diseño inspirado en Rockefeller • Valores promedio y supuestos visibles en la UI</footer>
+
+  </div>  <script>
+    // Valores nutricionales promedio usados (aprox.)
+    const dates = {
+      calories: 70, // 3 dátiles
+      carbs: 18,
+      fiber: 1.8,
+      protein: 0.8,
+      fat: 0.1,
+      potassium: 200
+    };
+
+    const milkValues = {
+      whole: {proteinPer100:3.3, kcalPer100:62, carbsPer100:4.8, fatPer100:3.4},
+      semi:  {proteinPer100:3.4, kcalPer100:50, carbsPer100:5,   fatPer100:1.5},
+      skim:  {proteinPer100:3.4, kcalPer100:34, carbsPer100:5,   fatPer100:0.1}
+    };
+
+    function round(v,dec=1){return Math.round(v*(10**dec))/(10**dec)}
+
+    function calculate(){
+      const w = parseFloat(document.getElementById('weight').value) || 0;
+      const h = parseFloat(document.getElementById('height').value) || 0;
+      const factor = parseFloat(document.getElementById('goal').value) || 1.8;
+      const milkType = document.getElementById('milkType').value || 'whole';
+
+      const protReq = round(w * factor, 1); // gramos totales recomendados
+
+      // proteína que aporta 200 ml de leche
+      const milk = milkValues[milkType];
+      const milkProt = round(milk.proteinPer100 * 2, 1);
+
+      // proteína en polvo necesaria (si la leche cubre parte)
+      const powderNeeded = Math.max(0, round(protReq - milkProt, 1));
+
+      // Calorías y macros:
+      // - asumimos proteína en polvo casi pura: 4 kcal por g de proteína, sin carbs/fat
+      const powderKcal = powderNeeded * 4;
+
+      const milkKcal = milk.kcalPer100 * 2;
+      const milkCarb = milk.carbsPer100 * 2;
+      const milkFat = milk.fatPer100 * 2;
+
+      const totalCal = round(dates.calories + milkKcal + powderKcal, 0);
+      const totalProt = round(dates.protein + milkProt + powderNeeded, 1);
+      const totalCarb = round(dates.carbs + milkCarb, 1);
+      const totalFat = round(dates.fat + milkFat, 1);
+      const totalFib = round(dates.fiber, 1);
+      const totalK = round(dates.potassium + 0, 0);
+
+      // Update UI
+      document.getElementById('protReq').innerText = protReq + ' g/día';
+      document.getElementById('milkProt').innerText = milkProt + ' g (en 200 ml)';
+      document.getElementById('powderNeeded').innerText = powderNeeded + ' g (polvo, aprox.)';
+      document.getElementById('calMix').innerText = totalCal + ' kcal';
+
+      document.getElementById('totCal').innerText = totalCal + ' kcal';
+      document.getElementById('totProt').innerText = totalProt + ' g';
+      document.getElementById('totCarb').innerText = totalCarb + ' g';
+      document.getElementById('totFat').innerText = totalFat + ' g';
+      document.getElementById('totFib').innerText = totalFib + ' g';
+      document.getElementById('totK').innerText = totalK + ' mg';
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', calculate);
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.getElementById('weight').value = '78.5';
+      document.getElementById('height').value = '175';
+      document.getElementById('goal').value = '1.8';
+      document.getElementById('milkType').value = 'whole';
+      calculate();
+    });
+
+    // run initial
+    calculate();
+  </script></body>
+  </html>
