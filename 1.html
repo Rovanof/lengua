@@ -15,22 +15,22 @@
       --glass: rgba(255,255,255,0.03);
       --accent:#11304f;
       --radius:18px;
-    }
-    html,body{height:100%;}
-    body{
-      margin:0;background:linear-gradient(180deg,var(--bg),#051028 70%);
-      font-family: 'Georgia', 'Times New Roman', serif;color:var(--muted);
-      display:flex;align-items:center;justify-content:center;padding:32px;
-    }
-    .frame{
-      width:960px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:22px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.7);border:1px solid rgba(201,162,74,0.08);
-      display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start;
-    }
-    header{grid-column:1 / -1;display:flex;align-items:center;gap:18px}
-    .crest{width:84px;height:84px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#f6e9b1);display:flex;align-items:center;justify-content:center;color:#071233;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
-    h1{margin:0;font-size:20px;color:var(--gold);letter-spacing:0.6px}
-    p.lead{margin:0;color:var(--muted);opacity:0.9}.card{background:var(--card);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);}
+    }body{ /* scroll fix */ overflow-y:auto;
+  margin:0;background:linear-gradient(180deg,var(--bg),#051028 70%);
+  font-family: 'Georgia', 'Times New Roman', serif;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;padding:32px;
+}
+.frame{
+  width:960px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:22px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.7);border:1px solid rgba(201,162,74,0.08);
+  display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start;
+}
+header{grid-column:1 / -1;display:flex;align-items:center;gap:18px}
+.crest{width:84px;height:84px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#f6e9b1);display:flex;align-items:center;justify-content:center;color:#071233;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+h1{margin:0;font-size:20px;color:var(--gold);letter-spacing:0.6px}
+p.lead{margin:0;color:var(--muted);opacity:0.9}
+
+.card{background:var(--card);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);}
 label{display:block;font-size:12px;margin-bottom:6px;color:var(--muted);}
 input[type="number"], select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:var(--muted);font-size:15px}
 .small{font-size:13px;color:#98a4b8}
@@ -230,4 +230,4 @@ footer{grid-column:1 / -1;text-align:center;color:#8193a8;font-size:12px;margin-
     // run initial
     calculate();
   </script></body>
-  </html>
+            </html>
