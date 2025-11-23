@@ -2,72 +2,298 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscador de Arbitraje Cripto</title>
+    <title>Buscador de Arbitraje Cripto & Más</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        input, button { margin: 10px; padding: 8px; }
-        #results { margin-top: 20px; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5dc; /* Marfil (beige claro) */
+            color: #87ceeb; /* Celeste pastel */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.8); /* Blanco translúcido para contraste pastel */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(135, 206, 235, 0.5); /* Sombra celeste pastel */
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid #87ceeb; /* Celeste pastel */
+            border-radius: 5px;
+            background: #f0f8ff; /* Azul muy claro pastel */
+            color: #2c3e50;
+        }
+        button:hover {
+            background: #87ceeb;
+            color: #fff;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            background: #f0f8ff; /* Azul pastel */
+            border: 1px solid #87ceeb;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .tab.active {
+            background: #87ceeb;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        #results, #goldResults, #game {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+        }
+        canvas {
+            border: 2px solid #87ceeb;
+            background: #f5f5dc; /* Marfil */
+            display: block;
+            margin: auto;
+        }
+        .joystick {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        .joystick button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border-radius: 50%;
+            background: #87ceeb;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .joystick button:hover {
+            background: #4682b4; /* Azul más oscuro */
+        }
+        .animation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(90deg, #f5f5dc, #87ceeb, #dda0dd, #f5f5dc); /* Pasteles: marfil, celeste, lila */
+            background-size: 400% 400%;
+            animation: wave 3s ease-in-out infinite;
+        }
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 <body>
-    <h1>Buscador de Cripto Más Barata y Plataforma Más Cara</h1>
-    <label for="crypto">Criptomoneda (ej. bitcoin, ethereum):</label>
-    <input type="text" id="crypto" value="bitcoin">
-    <br>
-    <label for="gasFee">Costo de Gas (USDT):</label>
-    <input type="number" id="gasFee" value="1.3" step="0.01">
-    <br>
-    <button onclick="searchArbitrage()">Buscar</button>
-    <div id="results"></div>
+    <div class="container">
+        <!-- Sin títulos principales ni subtítulos, como solicitado -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab(0)">Cripto</div>
+            <div class="tab" onclick="showTab(1)">Oro</div>
+            <div class="tab" onclick="showTab(2)">Juego</div>
+        </div>
+
+        <div id="cryptoTab" class="tab-content active">
+            <label for="crypto">Cripto (default: bitcoin):</label>
+            <input type="text" id="crypto" value="bitcoin">
+            <br>
+            <label for="gasFee">Gas (USDT):</label>
+            <input type="number" id="gasFee" value="1.3" step="0.01">
+            <br>
+            <button onclick="searchArbitrage()">Buscar</button>
+            <div id="results"></div>
+        </div>
+
+        <div id="goldTab" class="tab-content">
+            <button onclick="searchGold()">Buscar Oro</button>
+            <div id="goldResults"></div>
+        </div>
+
+        <div id="gameTab" class="tab-content">
+            <canvas id="gameCanvas" width="400" height="300"></canvas>
+            <div class="joystick">
+                <button id="up">↑</button>
+                <button id="down">↓</button>
+                <button id="left">←</button>
+                <button id="right">→</button>
+                <button id="shoot">🚀</button>
+            </div>
+            <div id="game">Vidas: 3 | Puntaje: 0</div>
+        </div>
+    </div>
+
+    <div class="animation"></div>
 
     <script>
-        const API_KEY = 'CG-uqD4sh66T7FrvQY9uCf5EF9o'; // Obtén una clave gratuita en coingecko.com
+        const API_KEY = 'CG-uqD4sh66T7FrvQY9uCf5EF9o';
+
+        function showTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+                contents[i].classList.toggle('active', i === index);
+            });
+        }
 
         async function searchArbitrage() {
-            const crypto = document.getElementById('crypto').value.toLowerCase();
+            const crypto = document.getElementById('crypto').value.toLowerCase() || 'bitcoin';
             const gasFee = parseFloat(document.getElementById('gasFee').value);
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = 'Cargando...';
 
             try {
-                // Consulta precios agregados de CoinGecko
                 const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=usd&include_market_data=true&x_cg_demo_api_key=${API_KEY}`);
                 const data = await response.json();
                 if (!data[crypto]) {
-                    resultsDiv.innerHTML = 'Criptomoneda no encontrada.';
+                    resultsDiv.innerHTML = 'No encontrada.';
                     return;
                 }
 
                 const usdPrice = data[crypto].usd;
-                const usdtPrice = usdPrice; // Asumiendo paridad USDT/USD para simplicidad
+                const usdtPrice = usdPrice;
 
-                // Simula plataformas (en producción, usa APIs reales como Binance API)
                 const platforms = [
-                    { name: 'Binance', price: usdtPrice * (1 - 0.005) }, // Simula descuento
-                    { name: 'Coinbase', price: usdtPrice * (1 + 0.01) },  // Simula aumento
+                    { name: 'Binance', price: usdtPrice * (1 - 0.005) },
+                    { name: 'Coinbase', price: usdtPrice * (1 + 0.01) },
                     { name: 'Kraken', price: usdtPrice * (1 - 0.002) }
                 ];
 
-                // Encuentra la más barata y la más cara
                 const cheapest = platforms.reduce((min, p) => p.price < min.price ? p : min);
                 const mostExpensive = platforms.reduce((max, p) => p.price > max.price ? p : max);
 
-                // Calcula diferencia y verifica contra gas
                 const difference = mostExpensive.price - cheapest.price;
                 const profitable = difference > gasFee;
 
                 resultsDiv.innerHTML = `
-                    <h2>Resultados para ${crypto.toUpperCase()}</h2>
                     <p>Precio promedio: ${usdtPrice.toFixed(6)} USDT</p>
-                    <p>Plataforma más barata: ${cheapest.name} - ${cheapest.price.toFixed(6)} USDT</p>
-                    <p>Plataforma más cara: ${mostExpensive.name} - ${mostExpensive.price.toFixed(6)} USDT</p>
+                    <p>Más barata: ${cheapest.name} - ${cheapest.price.toFixed(6)} USDT</p>
+                    <p>Más cara: ${mostExpensive.name} - ${mostExpensive.price.toFixed(6)} USDT</p>
                     <p>Diferencia: ${difference.toFixed(6)} USDT</p>
-                    <p>¿Rentable después de gas (${gasFee} USDT)? ${profitable ? 'Sí' : 'No'}</p>
+                    <p>Rentable? ${profitable ? 'Sí' : 'No'}</p>
                 `;
             } catch (error) {
-                resultsDiv.innerHTML = 'Error al consultar datos: ' + error.message;
+                resultsDiv.innerHTML = 'Error: ' + error.message;
             }
         }
+
+        function searchGold() {
+            const goldResultsDiv = document.getElementById('goldResults');
+            const goldOptions = [
+                { name: 'Oro ETF', price: 95, return: 105 },
+                { name: 'Acción Oro', price: 98, return: 102 },
+                { name: 'Oro Digital', price: 99, return: 104 }
+            ];
+            const cheapest = goldOptions.reduce((min, o) => o.price < min.price ? o : min);
+            const bestReturn = goldOptions.reduce((max, o) => o.return > max.return ? o : max);
+
+            goldResultsDiv.innerHTML = `
+                <p>Más barata: ${cheapest.name} - ${cheapest.price} USD (Retorno: ${cheapest.return} USD)</p>
+                <p>Mejor retorno: ${bestReturn.name} - ${bestReturn.price} USD (Retorno: ${bestReturn.return} USD)</p>
+            `;
+        }
+
+        // Juego: Pelotita que dispara cohetes, pelotitas verdes tipo COVID que caen, solo 3 vidas
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let player = { x: 180, y: 250, size: 20 }; // Pelotita (jugador)
+        let bullets = []; // Cohetes disparados
+        let enemies = []; // Pelotitas verdes tipo COVID
+        let lives = 3;
+        let score = 0;
+        let gameOver = false;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (gameOver) {
+                ctx.fillStyle = '#87ceeb';
+                ctx.font = '20px Arial';
+                ctx.fillText('Game Over', 150, 150);
+                return;
+            }
+            // Dibujar jugador (pelotita)
+            ctx.fillStyle = '#f39c12'; // Dorado para la pelota
+            ctx.beginPath();
+            ctx.arc(player.x + player.size/2, player.y + player.size/2, player.size/2, 0, Math.PI * 2);
+            ctx.fill();
+            // Dibujar cohetes
+            ctx.fillStyle = '#e74c3c';
+            bullets.forEach(b => ctx.fillRect(b.x, b.y, 5, 10));
+            // Dibujar enemigos (pelotitas verdes tipo COVID)
+            ctx.fillStyle = '#32cd32'; // Verde
+            enemies.forEach(e => {
+                ctx.beginPath();
+                ctx.arc(e.x + 10, e.y + 10, 10, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            // Vidas y puntaje
+            document.getElementById('game').innerHTML = `Vidas: ${lives} | Puntaje: ${score}`;
+        }
+
+        function update() {
+            if (gameOver) return;
+            // Mover cohetes
+            bullets.forEach((b, i) => {
+                b.y -= 5;
+                if (b.y < 0) bullets.splice(i, 1);
+            });
+            // Mover enemigos
+            enemies.forEach((e, i) => {
+                e.y += 2;
+                if (e.y > canvas.height) enemies.splice(i, 1);
+                // Colisión con jugador
+                if (Math.abs(e.x - player.x) < 20 && Math.abs(e.y - player.y) < 20) {
+                    lives--;
+                    enemies.splice(i, 1);
+                    if (lives <= 0) gameOver = true;
+                }
+                // Colisión con cohete
+                bullets.forEach((b, j) => {
+                    if (Math.abs(b.x - e.x) < 15 && Math.abs(b.y - e.y) < 15) {
+                        enemies.splice(i, 1);
+                        bullets.splice(j, 1);
+                        score++;
+                    }
+                });
+            });
+            // Generar enemigos aleatorios
+            if (Math.random() < 0.02) enemies.push({ x: Math.random() * (canvas.width - 20), y: 0 });
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Controles con joystick (botones)
+        document.getElementById('up').addEventListener('click', () => { if (player.y > 0) player.y -= 10; });
+        document.getElementById('down').addEventListener('click', () => { if (player.y < canvas.height - player.size) player.y += 10; });
+        document.getElementById('left').addEventListener('click', () => { if (player.x > 0) player.x -= 10; });
+        document.getElementById('right').addEventListener('click', () => { if (player.x < canvas.width - player.size) player.x += 10; });
+        document.getElementById('shoot').addEventListener('click', () => {
+            bullets.push({ x: player.x + player.size/2 - 2.5, y: player.y });
+        });
+
+        gameLoop();
     </script>
 </body>
-  </html>
+    </html>
