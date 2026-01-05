@@ -11,6 +11,7 @@
     --neon-green:#39ff14;
     --dark-bg:#050505;
     --glitch-pink:#ff00ff;
+    --purple:#b200ff;
 }
 
 canvas{
@@ -52,35 +53,33 @@ header{
     box-shadow:0 0 15px var(--neon-green);
 }
 
-.slogan{
+.hero {
+    padding:100px 20px;
+    text-align:center;
+    max-width:900px;
+    margin:0 auto;
+}
+
+.hero h1{
+    font-size:4rem;
+    text-transform:uppercase;
     color:var(--neon-green);
-    letter-spacing:3px;
-    margin-top:10px;
-    font-size:1.1rem;
+    margin-bottom:15px;
 }
 
-.category-section{
-    padding:40px 20px;
+.hero h2{
+    font-size:2rem;
+    color:var(--purple);
+    margin-bottom:25px;
+    font-weight:normal;
 }
 
-h2{
-    color:var(--neon-green);
-    border-left:5px solid var(--neon-green);
-    padding-left:15px;
-    text-transform: uppercase;
-}
-
-.description {
-    margin-top:15px;
-    line-height:1.5;
-    font-size:1rem;
+.hero p{
+    font-size:1.3rem;
+    line-height:1.6;
     color:rgba(57,255,20,0.9);
-}
-
-.sub-title {
-    color:var(--glitch-pink);
-    font-weight:bold;
-    margin-bottom:10px;
+    max-width:800px;
+    margin:0 auto;
 }
 
 /* FOOTER */
@@ -126,35 +125,15 @@ footer{
     <div class="slogan">DISEÑADO PARA EL HOMBRE QUE EVOLUCIONA</div>
 </header>
 
-<!-- SECCIÓN DE REMERAS -->
-<section class="category-section">
-    <h2>- REMERAS ÚNICAS</h2>
-    <div class="sub-title">Estilo que trasciende</div>
-    <p class="description">
-        Cada remera CHEANUT está diseñada como una pieza única, pensada para quienes buscan destacar sin comprometer su estilo. 
-        Inspiradas en tecnología y moda urbana, estas prendas fusionan estética futurista y confort total. 
-        Llevar una CHEANUT es llevar evolución.
-    </p>
-</section>
-
-<!-- SECCIÓN DE BOTÁNICA EXCLUSIVA -->
-<section class="category-section">
-    <h2>- BOTÁNICA EXCLUSIVA</h2>
-    <div class="sub-title">Naturaleza reinventada</div>
-    <p class="description">
-        Nuestra selección de botánica combina innovación y estética. Desde macetas inteligentes hasta plantas sensoriales, 
-        cada pieza es un objeto de colección que transforma cualquier espacio. Experiencia y estilo se encuentran en cada hoja.
-    </p>
-</section>
-
-<!-- SECCIÓN DE ELECTRÓNICA EXCLUSIVA -->
-<section class="category-section">
-    <h2>- ELECTRÓNICA EXCLUSIVA</h2>
-    <div class="sub-title">Tecnología que impacta</div>
-    <p class="description">
-        La electrónica CHEANUT está pensada para quienes buscan dispositivos únicos y funcionales. 
-        Smartphones, gadgets y accesorios seleccionados con precisión y estilo futurista. 
-        Innovación que se lleva puesta y transforma tu día a día.
+<!-- HERO CENTRAL -->
+<section class="hero">
+    <h1>CHEANUT</h1>
+    <h2>Estilo, Innovación y Exclusividad</h2>
+    <p>
+        En CHEANUT creamos más que productos: diseñamos experiencias que evolucionan contigo. 
+        Nuestras remeras son únicas, nuestra botánica es exclusiva y nuestra electrónica redefine la innovación. 
+        Cada detalle está pensado para quienes buscan destacar, combinar estilo y funcionalidad, y vivir en un universo de diseño moderno y sofisticado. 
+        Bienvenido a la ingeniería del estilo masculino que marca la diferencia.
     </p>
 </section>
 
