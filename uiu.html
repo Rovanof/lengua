@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#39ff14">
 <title>CHEANUT | Ingeniería de Estilo Masculino</title>
+
 <style>
 :root{
     --neon-green:#39ff14;
@@ -69,67 +70,17 @@ h2{
     text-transform: uppercase;
 }
 
-/* Carrusel responsive */
-.carousel-container{
-    display:flex;
-    gap:15px;
-    overflow-x:auto;
-    padding:20px 0;
-    scrollbar-width: thin;
-    scrollbar-color: var(--neon-green) transparent;
-    scroll-snap-type: x mandatory;
-}
-.product-card{
-    min-width:200px;
-    flex:0 0 auto;
-    background:rgba(57,255,20,.05);
-    border:1px solid var(--neon-green);
-    padding:15px;
-    text-align:center;
-    transition:.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    scroll-snap-align: start;
+.description {
+    margin-top:15px;
+    line-height:1.5;
+    font-size:1rem;
+    color:rgba(57,255,20,0.9);
 }
 
-.product-card:hover{
-    background:var(--neon-green);
-    color:black;
-    box-shadow:0 0 20px var(--neon-green);
-}
-
-.product-card img{
-    width:100%;
-    height:200px;
-    font-size:100px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    object-fit:contain;
-    border-bottom: 1px solid var(--neon-green);
-    margin-bottom: 10px;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-button{
-    background:transparent;
-    border:1px solid currentColor;
-    padding:8px 16px;
-    font-family:inherit;
-    font-weight: bold;
-    cursor:pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: black;
-    color: var(--neon-green);
+.sub-title {
+    color:var(--glitch-pink);
+    font-weight:bold;
+    margin-bottom:10px;
 }
 
 /* FOOTER */
@@ -162,6 +113,7 @@ footer{
     font-size:.8rem;
     opacity:.6;
 }
+
 </style>
 </head>
 
@@ -174,14 +126,36 @@ footer{
     <div class="slogan">DISEÑADO PARA EL HOMBRE QUE EVOLUCIONA</div>
 </header>
 
+<!-- SECCIÓN DE REMERAS -->
 <section class="category-section">
-    <h2>- Ropa [01]</h2>
-    <div class="carousel-container" id="ropa"></div>
+    <h2>- REMERAS ÚNICAS</h2>
+    <div class="sub-title">Estilo que trasciende</div>
+    <p class="description">
+        Cada remera CHEANUT está diseñada como una pieza única, pensada para quienes buscan destacar sin comprometer su estilo. 
+        Inspiradas en tecnología y moda urbana, estas prendas fusionan estética futurista y confort total. 
+        Llevar una CHEANUT es llevar evolución.
+    </p>
 </section>
 
+<!-- SECCIÓN DE BOTÁNICA EXCLUSIVA -->
 <section class="category-section">
-    <h2>- Plantas [02]</h2>
-    <div class="carousel-container" id="plantas"></div>
+    <h2>- BOTÁNICA EXCLUSIVA</h2>
+    <div class="sub-title">Naturaleza reinventada</div>
+    <p class="description">
+        Nuestra selección de botánica combina innovación y estética. Desde macetas inteligentes hasta plantas sensoriales, 
+        cada pieza es un objeto de colección que transforma cualquier espacio. Experiencia y estilo se encuentran en cada hoja.
+    </p>
+</section>
+
+<!-- SECCIÓN DE ELECTRÓNICA EXCLUSIVA -->
+<section class="category-section">
+    <h2>- ELECTRÓNICA EXCLUSIVA</h2>
+    <div class="sub-title">Tecnología que impacta</div>
+    <p class="description">
+        La electrónica CHEANUT está pensada para quienes buscan dispositivos únicos y funcionales. 
+        Smartphones, gadgets y accesorios seleccionados con precisión y estilo futurista. 
+        Innovación que se lleva puesta y transforma tu día a día.
+    </p>
 </section>
 
 <footer>
@@ -191,13 +165,18 @@ footer{
                 <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.5a1 1 0 11-2 0 1 1 0 012 0z"/>
             </svg>
         </a>
+
         <a href="https://wa.me/5493865385988" target="_blank" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24">
                 <path d="M12 2a10 10 0 00-8.7 15L2 22l5-1.3A10 10 0 1012 2z"/>
             </svg>
         </a>
     </div>
+
     <p class="small">© 2024–2026 CHEANUT INDUSTRIES</p>
+    <p class="small">
+        Nos reservamos todos los derechos de autor, reproducción e interpretación del contenido publicado en este sitio.
+    </p>
 </footer>
 
 <script>
@@ -225,57 +204,6 @@ function draw(){
     });
 }
 setInterval(draw,33);
-
-// --- INVENTARIO CON EMOJIS ---
-const phone = "5493865385988";
-
-const inventario = {
-    ropa: [
-        {nombre:"Camiseta Virus", precio:"4500", desc:"Camiseta de estilo futurista con diseño de virus.", img:"1.png"},
-        {nombre:"Pantalón Virus", precio:"8200", desc:"Cómodo pantalón con print de virus.", img:""👕},
-        {nombre:"Chaqueta Virus", precio:"12500", desc:"Chaqueta reflectante con patrón de virus.", img:"👕"},
-        {nombre:"Gorra Virus", precio:"3100", desc:"Gorra casual con emoji de virus.", img:""},👕
-        {nombre:"Zapatos Virus", precio:"9600", desc:"Zapatos urbanos con estilo viral.", img:"🦠"},
-        {nombre:"Bufanda Virus", precio:"4200", desc:"Bufanda LED con estampado de virus.", img:"🦠"},
-        {nombre:"Chaleco Virus", precio:"7800", desc:"Chaleco de seguridad con símbolo de virus.", img:"🦠"},
-        {nombre:"Pantalón Cargo Virus", precio:"8900", desc:"Cargo con bolsillos y diseño viral.", img:"🦠"},
-        {nombre:"Campera Virus", precio:"13200", desc:"Campera futurista con print de virus.", img:"🦠"}
-    ],
-    plantas: [
-        {nombre:"Bonsai Bacteria", precio:"6700", desc:"Mini bonsai con efecto visual de bacteria.", img:"🧫"},
-        {nombre:"Maceta Bacteria", precio:"5800", desc:"Maceta inteligente con emoji de bacteria.", img:"🧫"},
-        {nombre:"Kit Hidropónico Bacteria", precio:"9900", desc:"Kit completo de cultivo con bacteria.", img:"🧫"},
-        {nombre:"Terrario Bacteria", precio:"8700", desc:"Terrario LED decorativo con bacterias.", img:"🧫"},
-        {nombre:"Planta Sensorial Bacteria", precio:"6200", desc:"Planta con sensores y emoji de bacteria.", img:"🧫"},
-        {nombre:"Maceta AutoRiego Bacteria", precio:"7500", desc:"Auto-riego con estilo bacteriano.", img:"🧫"},
-        {nombre:"Orquídea Bacteria", precio:"10400", desc:"Orquídea digital con emoji de bacteria.", img:"🧫"},
-        {nombre:"Kit Jardinería Bacteria", precio:"8900", desc:"Kit de jardinería divertido con bacterias.", img:"🧫"},
-        {nombre:"Especial Bacteria", precio:"8000", desc:"Planta especial de temporada con bacteria.", img:"🧫"}
-    ]
-};
-
-// --- RENDERIZADO ---
-Object.keys(inventario).forEach(cat=>{
-    const container = document.getElementById(cat);
-    if(container){
-        inventario[cat].forEach(prod=>{
-            const msg = `Hola Cheanut, me interesa el producto: ${prod.nombre} ($${prod.precio})`;
-            container.innerHTML += `
-                <div class="product-card">
-                    <div style="font-size:100px; line-height:1; height:200px; display:flex; align-items:center; justify-content:center;">${prod.img}</div>
-                    <div>
-                        <h3>${prod.nombre}</h3>
-                        <p>${prod.desc}</p>
-                        <p>PRECIO: $${prod.precio}</p>
-                        <a href="https://wa.me/${phone}?text=${encodeURIComponent(msg)}" target="_blank">
-                            <button>ADQUIRIR</button>
-                        </a>
-                    </div>
-                </div>
-            `;
-        });
-    }
-});
 </script>
 
 </body>
