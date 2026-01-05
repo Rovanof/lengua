@@ -3,195 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tienda Escolar | Productos</title>
+<title>CHEANUT | Tienda Escolar</title>
 
 <style>
 :root{
-    --main-bg: linear-gradient(135deg, #0f172a 0%, #07102a 40%, #081f3a 100%);
-    --accent:#06b6d4;
-    --card-bg: rgba(255,255,255,0.05);
+    --neon-green:#39ff14;
+    --dark-bg:#050505;
+    --accent:#39ff14;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-1;
 }
 
 body{
     margin:0;
-    font-family: 'Inter', sans-serif;
-    background: var(--main-bg);
-    color: #e6eef8;
+    font-family:'Courier New', monospace;
+    color:white;
+    background:var(--dark-bg);
     overflow-x:hidden;
 }
 
+/* GLITCH EFFECT */
+.glitch{
+    font-size:3rem;
+    font-weight:bold;
+    text-transform:uppercase;
+    text-shadow:0.05em 0 0 #ff00ff, -0.025em -0.05em 0 var(--neon-green);
+    animation:glitch .5s infinite;
+}
+@keyframes glitch{
+    0%{transform:translate(0)}
+    20%{transform:translate(-2px,2px)}
+    40%{transform:translate(-2px,-2px)}
+    60%{transform:translate(2px,2px)}
+    80%{transform:translate(2px,-2px)}
+    100%{transform:translate(0)}
+}
+
 header{
-    padding:40px 20px;
+    padding:50px 20px;
     text-align:center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom:2px solid var(--neon-green);
+    box-shadow:0 0 15px var(--neon-green);
 }
 
-header h1{
-    font-size:2.5rem;
-    color: var(--accent);
+.slogan{
+    color:var(--neon-green);
+    letter-spacing:3px;
+    margin-top:10px;
+    font-size:1.1rem;
 }
 
+/* Secciones de productos */
 .category-section{
-    padding:30px 20px;
+    padding:40px 20px;
 }
 
 .category-section h2{
-    color: var(--accent);
-    border-left:4px solid var(--accent);
-    padding-left:10px;
+    color:var(--neon-green);
+    border-left:5px solid var(--neon-green);
+    padding-left:15px;
+    text-transform:uppercase;
     margin-bottom:15px;
-    text-transform: uppercase;
 }
 
+/* Carrusel horizontal */
 .carousel-container{
     display:flex;
     gap:15px;
     overflow-x:auto;
     padding-bottom:20px;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type:x mandatory;
 }
-
 .product-card{
     min-width:200px;
     flex:0 0 auto;
-    background: var(--card-bg);
-    border:1px solid rgba(255,255,255,0.1);
+    background: rgba(57,255,20,.05);
+    border:1px solid var(--neon-green);
     padding:15px;
     text-align:center;
     border-radius:10px;
-    scroll-snap-align: start;
-    transition:0.3s;
+    scroll-snap-align:start;
+    transition:.3s;
 }
-
 .product-card:hover{
-    transform: scale(1.05);
-    border-color: var(--accent);
-    box-shadow: 0 0 15px var(--accent);
+    background: var(--neon-green);
+    color:black;
+    box-shadow:0 0 20px var(--neon-green);
 }
-
 .product-card img{
     width:100%;
-    height:150px;
+    height:200px;
     object-fit:cover;
-    border-radius:8px;
-    margin-bottom:10px;
+    border-bottom: 1px solid var(--neon-green);
+    margin-bottom: 10px;
 }
-
 .product-card h3{
-    font-size:1rem;
     margin:5px 0;
-    color: var(--accent);
+    font-size:1rem;
 }
-
 .product-card p{
-    font-size:0.9rem;
+    font-size:.9rem;
 }
-
 .product-card button{
-    margin-top:8px;
-    padding:8px;
-    width:100%;
-    border:none;
-    background: var(--accent);
-    color:#0f172a;
+    background:transparent;
+    border:1px solid currentColor;
+    padding:8px 16px;
+    font-family:inherit;
     font-weight:bold;
     cursor:pointer;
+    width: 100%;
+    margin-top: 10px;
     border-radius:5px;
-    transition:0.3s;
 }
-
 .product-card button:hover{
-    background:#0f172a;
-    color: var(--accent);
-    border:1px solid var(--accent);
+    background:black;
+    color:var(--neon-green);
 }
 
+/* Footer */
 footer{
-    padding:20px;
+    padding:30px 20px;
+    background:#111;
     text-align:center;
-    border-top:1px solid rgba(255,255,255,0.1);
-    font-size:0.9rem;
+    border-top:1px solid var(--neon-green);
     color:#cbd5e1;
+}
+.socials{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin:15px 0;
+}
+.socials a svg{
+    width:26px;
+    height:26px;
+    fill:var(--neon-green);
+    transition:.3s;
+}
+.socials a:hover svg{
+    filter:drop-shadow(0 0 6px var(--neon-green));
+}
+.small{
+    font-size:.8rem;
+    opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="matrix"></canvas>
+
 <header>
-    <h1>Tienda Escolar</h1>
+    <div class="glitch">CHEANUT</div>
+    <div class="slogan">DISEÑADO PARA EL HOMBRE QUE EVOLUCIONA</div>
 </header>
 
 <section class="category-section">
-    <h2>- Ropa</h2>
+    <h2>- Ropa [01]</h2>
     <div class="carousel-container" id="ropa"></div>
 </section>
 
 <section class="category-section">
-    <h2>- Electrónica</h2>
+    <h2>- Electrónica [02]</h2>
     <div class="carousel-container" id="electronica"></div>
 </section>
 
 <section class="category-section">
-    <h2>- Botánica</h2>
+    <h2>- Botánica [03]</h2>
     <div class="carousel-container" id="botanica"></div>
 </section>
 
 <section class="category-section">
-    <h2>- Herramientas</h2>
+    <h2>- Herramientas [04]</h2>
     <div class="carousel-container" id="herramientas"></div>
 </section>
 
 <footer>
-    © 2026 Tienda Escolar
+    <div class="socials">
+        <a href="https://instagram.com/Pierre_Chenaut_" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.5a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
+        </a>
+        <a href="https://wa.me/5493865385988" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.7 15L2 22l5-1.3A10 10 0 1012 2z"/></svg>
+        </a>
+    </div>
+    <p class="small">© 2024–2026 CHEANUT INDUSTRIES</p>
 </footer>
 
 <script>
-// Número de contacto (para WhatsApp)
-const phone = "5493865385988";
+// --- MATRIX BACKGROUND ---
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+const letters = "01CHEANUT$#@";
+const fontSize = 14;
+const cols = canvas.width / fontSize;
+const drops = Array.from({length: cols}).fill(1);
 
-// Inventario escolar (usando fotos y lógica del HTML escolar)
+function drawMatrix(){
+    ctx.fillStyle = "rgba(0,0,0,.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "#39ff14";
+    ctx.font = fontSize + "px monospace";
+    drops.forEach((y,i)=>{
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text,i*fontSize,y*fontSize);
+        if(y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    });
+}
+setInterval(drawMatrix,33);
+
+// --- INVENTARIO Y CARRUSEL ---
+const phone = "5493865385988";
 const inventario = {
-    ropa: [
-        { nombre:"Camiseta Matemática", precio:"1500", img:"1.png" },
-        { nombre:"Buzo Algoritmo", precio:"2500", img:"2.png" },
-        { nombre:"Gorra Ciencia", precio:"1200", img:"3.png" }
-    ],
-    electronica: [
-        { nombre:"Calculadora Científica", precio:"3500", img:"4.png" },
-        { nombre:"Tablet Educativa", precio:"7500", img:"5.png" },
-        { nombre:"Robot Programable", precio:"12000", img:"6.png" }
-    ],
-    botanica: [
-        { nombre:"Planta de Aula", precio:"800", img:"7.png" },
-        { nombre:"Maceta Decorativa", precio:"1500", img:"8.png" },
-        { nombre:"Kit Jardinería", precio:"2200", img:"9.png" }
-    ],
-    herramientas: [
-        { nombre:"Juego de Geometría", precio:"900", img:"10.png" },
-        { nombre:"Set de Pintura", precio:"1800", img:"11.png" },
-        { nombre:"Microscopio Escolar", precio:"5500", img:"12.png" }
-    ]
+    ropa: Array.from({length:9},(_,i)=>({nombre:`Camiseta ${i+1}`, precio:1000+500*i, img:`https://via.placeholder.com/250x200/050505/39ff14?text=Ropa+${i+1}`})),
+    electronica: Array.from({length:9},(_,i)=>({nombre:`Gadget ${i+1}`, precio:5000+1000*i, img:`https://via.placeholder.com/250x200/050505/39ff14?text=Electro+${i+1}`})),
+    botanica: Array.from({length:9},(_,i)=>({nombre:`Planta ${i+1}`, precio:800+200*i, img:`https://via.placeholder.com/250x200/050505/39ff14?text=Botanica+${i+1}`})),
+    herramientas: Array.from({length:9},(_,i)=>({nombre:`Herramienta ${i+1}`, precio:1500+500*i, img:`https://via.placeholder.com/250x200/050505/39ff14?text=Herram+${i+1}`}))
 };
 
-// Renderizado automático de productos
+// Renderizado automático
 Object.keys(inventario).forEach(cat=>{
     const container = document.getElementById(cat);
-    if(container){
-        inventario[cat].forEach(prod=>{
-            const msg = `Hola, me interesa el producto: ${prod.nombre} ($${prod.precio})`;
-            container.innerHTML += `
-            <div class="product-card">
-                <img src="${prod.img}" alt="${prod.nombre}">
-                <h3>${prod.nombre}</h3>
-                <p>Precio: $${prod.precio}</p>
-                <a href="https://wa.me/${phone}?text=${encodeURIComponent(msg)}" target="_blank">
-                    <button>Adquirir</button>
-                </a>
-            </div>`;
-        });
-    }
+    inventario[cat].forEach(prod=>{
+        const msg = `Hola, me interesa el producto: ${prod.nombre} ($${prod.precio})`;
+        container.innerHTML += `
+        <div class="product-card">
+            <img src="${prod.img}" alt="${prod.nombre}">
+            <h3>${prod.nombre}</h3>
+            <p>Precio: $${prod.precio}</p>
+            <a href="https://wa.me/${phone}?text=${encodeURIComponent(msg)}" target="_blank">
+                <button>ADQUIRIR</button>
+            </a>
+        </div>`;
+    });
 });
+
+// --- CARRUSEL AUTOMÁTICO ---
+function autoScroll(id){
+    const container = document.getElementById(id);
+    let scroll = 0;
+    setInterval(()=>{
+        scroll += 210; // ancho aproximado de card + gap
+        if(scroll >= container.scrollWidth) scroll=0;
+        container.scrollTo({left:scroll, behavior:'smooth'});
+    },2500);
+}
+Object.keys(inventario).forEach(cat => autoScroll(cat));
 </script>
 
 </body>
