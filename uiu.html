@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#39ff14">
-<title>CHEANUT | Ingeniería de Estilo Masculino</title>
+<title>CHENAUT | Ingeniería de Estilo Masculino</title>
 
 <style>
 :root{
@@ -37,6 +37,7 @@ body{
                 -0.025em -0.05em 0 var(--neon-green);
     animation:glitch .5s infinite;
 }
+
 @keyframes glitch{
     0%{transform:translate(0)}
     20%{transform:translate(-2px,2px)}
@@ -54,9 +55,9 @@ header{
 }
 
 .hero {
-    padding:100px 20px;
+    padding:60px 20px;
     text-align:center;
-    max-width:900px;
+    max-width:1000px;
     margin:0 auto;
 }
 
@@ -75,17 +76,17 @@ header{
 }
 
 .hero p{
-    font-size:1.3rem;
-    line-height:1.6;
+    font-size:1.2rem;
+    line-height:1.8;
     color:rgba(57,255,20,0.9);
-    max-width:800px;
-    margin:0 auto;
+    max-width:900px;
+    margin:0 auto 30px;
 }
 
 /* FOOTER */
 footer{
     padding:30px 20px;
-    background:#111;
+    background:transparent;
     text-align:center;
     border-top:1px solid var(--neon-green);
 }
@@ -113,6 +114,19 @@ footer{
     opacity:.6;
 }
 
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1{
+        font-size:3rem;
+    }
+    .hero h2{
+        font-size:1.5rem;
+    }
+    .hero p{
+        font-size:1rem;
+        line-height:1.6;
+    }
+}
 </style>
 </head>
 
@@ -121,34 +135,35 @@ footer{
 <canvas id="matrix"></canvas>
 
 <header>
-    <div class="glitch">CHEANUT</div>
+    <div class="glitch">CHENAUT</div>
     <div class="slogan">DISEÑADO PARA EL HOMBRE QUE EVOLUCIONA</div>
 </header>
 
-
-<footer><section class="hero">
-    <p style="font-size:1.5rem; line-height:1.8; color:rgba(57,255,20,0.9); max-width:900px; margin:0 auto;">
-        En CHEANUT no nos limitamos a crear productos: diseñamos experiencias que evolucionan contigo, para quienes buscan algo más que lo común. 
+<section class="hero">
+    <p>
+        En CHENAUT no nos limitamos a crear productos: diseñamos experiencias que evolucionan contigo, para quienes buscan algo más que lo común. 
         Cada prenda, cada dispositivo y cada elemento de nuestra botánica está pensado como una declaración de estilo y personalidad. 
         Nuestras remeras son auténticas obras de arte urbano, únicas en su concepción, que fusionan comodidad, innovación y estética futurista, permitiéndote destacar en cualquier escenario. 
         La botánica que ofrecemos trasciende la decoración tradicional: desde plantas sensoriales hasta macetas inteligentes, cada pieza redefine la relación entre tecnología, naturaleza y diseño, transformando tus espacios en ecosistemas de creatividad y exclusividad. 
         En electrónica, seleccionamos dispositivos que combinan funcionalidad, diseño y vanguardia, para que cada gadget sea una extensión de tu estilo de vida y una muestra de sofisticación tecnológica. 
-
-        Cada detalle dentro de CHEANUT está cuidadosamente elaborado para quienes no se conforman con lo convencional, quienes valoran la originalidad, la innovación y la excelencia en todos los aspectos de su entorno. 
+    </p>
+    <p>
+        Cada detalle dentro de CHENAUT está cuidadosamente elaborado para quienes no se conforman con lo convencional, quienes valoran la originalidad, la innovación y la excelencia en todos los aspectos de su entorno. 
         Nuestro propósito es inspirar a quienes buscan evolucionar constantemente, fusionando moda, tecnología y naturaleza en experiencias únicas que elevan tu estilo personal a un nivel completamente nuevo. 
-
-        Al elegir CHEANUT, no solo adquieres productos exclusivos, sino que formas parte de una filosofía de diseño que prioriza la autenticidad, la creatividad y la innovación en cada elección. 
+    </p>
+    <p>
+        Al elegir CHENAUT, no solo adquieres productos exclusivos, sino que formas parte de una filosofía de diseño que prioriza la autenticidad, la creatividad y la innovación en cada elección. 
         Es un espacio donde el arte, la funcionalidad y la sofisticación se encuentran, pensado para el hombre moderno que desea marcar la diferencia, vivir con estilo y rodearse de objetos que reflejen su identidad y visión del futuro.
     </p>
 </section>
 
+<footer>
     <div class="socials">
         <a href="https://instagram.com/Pierre_Chenaut_" target="_blank" aria-label="Instagram">
             <svg viewBox="0 0 24 24">
                 <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.5a1 1 0 11-2 0 1 1 0 012 0z"/>
             </svg>
         </a>
-
         <a href="https://wa.me/5493865385988" target="_blank" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24">
                 <path d="M12 2a10 10 0 00-8.7 15L2 22l5-1.3A10 10 0 1012 2z"/>
@@ -175,7 +190,7 @@ const cols = canvas.width / fontSize;
 const drops = Array.from({length: cols}).fill(1);
 
 function draw(){
-    ctx.fillStyle = "rgba(0,0,0,.05)";
+    ctx.fillStyle = "rgba(0,0,0,0.05)"; // deja un trail ligero
     ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = "#39ff14";
     ctx.font = fontSize + "px monospace";
@@ -187,6 +202,12 @@ function draw(){
     });
 }
 setInterval(draw,33);
+
+// Ajuste dinámico al cambiar tamaño de ventana
+window.addEventListener("resize",()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+});
 </script>
 
 </body>
